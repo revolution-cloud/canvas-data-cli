@@ -10,6 +10,7 @@ class Sync {
     this.opts = opts
     this.logger = logger
     this.api = new Api(config)
+    this.config = config;
     this.fileDownloader = new FileDownloader(logger)
     this.saveLocation = path.resolve(process.cwd(), config.saveLocation)
     this.maxConnections = config.maxConnections || 200
@@ -19,7 +20,10 @@ class Sync {
       if (err) return cb(err)
       this.downloadSchema(toSync.schemaVersion, (err) => {
         if (err) return cb(err)
-        async.mapLimit(toSync.files, this.maxConnections, this.processFile.bind(this), (err, results) => {
+
+        const filteredFiles = toSync.files.filter(fi => this.config.tables.includes(fi.table))
+
+        async.mapLimit(filteredFiles, this.maxConnections, this.processFile.bind(this), (err, results) => {
           if (err) return cb(err)
 
           var splitResults = this.splitResults(results)

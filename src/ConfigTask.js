@@ -7,6 +7,17 @@ module.exports = {
   apiUrl: 'https://api.inshosteddata.com/api',
   key: process.env.CD_API_KEY, // don't hardcode creds, keep them in environment variables ideally!
   secret: process.env.CD_API_SECRET,
+  tables:[
+    'user_dim',
+    'assignment_dim',
+    'course_dim',
+    'course_section_dim',
+    'enrollment_dim',
+    'enrollment_term_dim',
+    'pseudonym_dim',
+    'submission_dim',
+    'submission_fact'
+  ],
   maxConnections: 200, // The maximum number of files allowed to be downloading simultaneously
 }
 `
